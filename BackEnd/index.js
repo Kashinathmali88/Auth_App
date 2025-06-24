@@ -13,10 +13,24 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://auth-app-frontend-woad.vercel.app",
+    ],
     credentials: true,
+    exposedHeaders: ["set-cookie"],
   })
 );
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 app.post("/signup", async (req, res) => {
   const { name, email, password } = req.body;
   const user = await User.create({ name, email, password });
@@ -58,8 +72,9 @@ app.post("/login", async (req, res) => {
   const option = {
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000,
-    secure: false,
-    sameSite: "Lax",
+    secure: true,
+    sameSite: "None",
+    domain: ".vercel.app",
   };
   res.cookie("token", token, option);
   return res.json({ success: true, message: "User logged in", token });
@@ -81,8 +96,10 @@ app.get("/me", auth, async (req, res) => {
 app.get("/logOut", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: false,
-    sameSite: "Lax",
+    maxAge: 24 * 60 * 60 * 1000,
+    secure: true,
+    sameSite: "None",
+    domain: ".vercel.app",
   });
   return res.json({ success: true, message: "Logged out successfully" });
 });

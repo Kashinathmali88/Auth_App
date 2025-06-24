@@ -78,13 +78,17 @@ app.get("/me", auth, async (req, res) => {
   res.json({ success: true, user });
 });
 
-app.post("/logOut", (req, res) => {
+app.get("/logOut", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: false,
     sameSite: "Lax",
   });
   return res.json({ success: true, message: "Logged out successfully" });
+});
+
+app.get("/", (req, res) => {
+  res.send("Api working");
 });
 
 dbConnect();

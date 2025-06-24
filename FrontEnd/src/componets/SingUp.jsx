@@ -8,10 +8,10 @@ import { AuthContext } from "../context/AuthContext";
 
 function SingUp() {
   const { register, handleSubmit, reset } = useForm();
-  const { navigate } = useContext(AuthContext);
+  const { navigate, backendUrl } = useContext(AuthContext);
   const onSubmit = async (data) => {
     await axios
-      .post("http://localhost:3000/signup", data, {
+      .post(`${backendUrl}/signup`, data, {
         withCredentials: true,
       })
       .then((res) => {

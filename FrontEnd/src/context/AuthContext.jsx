@@ -11,10 +11,11 @@ export const AuthContextProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const getUserData = async () => {
     await axios
-      .get("http://localhost:3000/me", { withCredentials: true })
+      .get(`${backendUrl}/me`, { withCredentials: true })
       .then((res) => {
         setUserData(res.data.user);
       })
@@ -27,7 +28,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const checkAuth = async () => {
     await axios
-      .get("http://localhost:3000/isAuth", { withCredentials: true })
+      .get(`${backendUrl}/isAuth`, { withCredentials: true })
       .then((res) => {
         if (res.data.success) {
           setIsLoggedIn(true);
@@ -50,6 +51,7 @@ export const AuthContextProvider = ({ children }) => {
     userData,
     setUserData,
     getUserData,
+    backendUrl,
   };
   return <AuthContext.Provider value={value}> {children}</AuthContext.Provider>;
 };

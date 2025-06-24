@@ -5,14 +5,16 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 function Login() {
   const { register, handleSubmit, reset } = useForm();
-  const { navigate, setIsLoggedIn, getUserData } = useContext(AuthContext);
+  const { navigate, setIsLoggedIn, getUserData, backendUrl } =
+    useContext(AuthContext);
 
   const onSubmit = async (data) => {
     await axios
-      .post("http://localhost:3000/login", data, {
+      .post(`${backendUrl}/login`, data, {
         withCredentials: true,
       })
       .then((res) => {

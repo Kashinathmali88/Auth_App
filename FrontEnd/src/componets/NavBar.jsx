@@ -13,12 +13,12 @@ function NavBar() {
     userData,
     setUserData,
     navigate,
-    getUserData,
+    backendUrl,
   } = useContext(AuthContext);
 
   const logOut = async () => {
     await axios
-      .post("http://localhost:3000/logOut", {}, { withCredentials: true })
+      .get(`${backendUrl}/logOut`, { withCredentials: true })
       .then((res) => {
         toast.success(res.data.message);
         setIsLoggedIn(false);

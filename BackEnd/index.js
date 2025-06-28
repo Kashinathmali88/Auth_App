@@ -14,9 +14,9 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: [
+      "https://auth-app-frontend-25t0oiepy-kashinaths-projects-af06b8cd.vercel.app",
       "https://auth-app-backend-seven.vercel.app",
       "http://localhost:5173",
-      "https://auth-app-frontend-woad.vercel.app",
     ],
     credentials: true,
     exposedHeaders: ["set-cookie"],

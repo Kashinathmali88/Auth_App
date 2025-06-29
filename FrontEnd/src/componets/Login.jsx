@@ -18,11 +18,16 @@ function Login() {
         withCredentials: true,
       })
       .then((res) => {
-        toast.success(res.data.message);
-        setIsLoggedIn(true);
-        getUserData();
-        reset();
-        navigate("/");
+        if (res.data.success) {
+          toast.success(res.data.message);
+          setIsLoggedIn(true);
+          getUserData();
+          reset();
+          navigate("/");
+        } else {
+          toast.error(res.data.message);
+          reset();
+        }
       })
       .catch((err) => {
         console.log(err);
